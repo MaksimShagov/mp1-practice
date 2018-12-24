@@ -70,7 +70,7 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
 void counting_sort(ULONGLONG a[], int n)
 {
     int *count_ind;
-    ULONGLONG *size, *arr, k, max = a[n - 1], min = a[0];
+    ULONGLONG *sizes, *arr, k, max = a[n - 1], min = a[0];
     int i, b = 0, j;
     count_ind = (int*)malloc(n * sizeof(int));
     size = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
@@ -97,7 +97,7 @@ void counting_sort(ULONGLONG a[], int n)
     for (i = 0; i < k; i++)
     {
         for (j = 0; j < arr[i]; j++)
-            size[b++] = i + min;
+            sizes[b++] = i + min;
     }
     for (j = 0; j < n; j++)
         arr[j] = a[j];
@@ -131,7 +131,7 @@ void merge(ULONGLONG a[], int *b, int l, int m, int r)
     {
         if (a[i] < a[j])
         {
-			arr_ind[v++] = b[i++];
+	    arr_ind[v++] = b[i++];
             arr[v++] = a[i++];
 
         }
