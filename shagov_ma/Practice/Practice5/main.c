@@ -177,9 +177,9 @@ void hoarasort(ULONGLONG* a, int *b, int first, int last)
  i = first;
  j = last;
  hoarasplit(a, b, &i, &j, a[ind]);
-if (i < last)
+ if (i < last)
    hoarasort(a, b, i, last);
-if (first < j)
+ if (first < j)
    hoarasort(a, b, first, j);
 }
 
@@ -188,23 +188,23 @@ void hoarasplit(ULONGLONG* a, int* b, int *first, int *last, int p)
 	int t;
 	ULONGLONG tmp;
 	do {
-			while(a[*first] < p)(*first)++;
-			while(a[*last] < p)(*last)++;
-			if (*first < *last)
-			{
-				tmp = a[*first];
-				a[*first] = a[*last];
-				a[*last] = tmp;
-				t = b[*first];
-				b[*first] = b[*last];
-				b[*last] = t;
-			}
+		while(a[*first] < p)(*first)++;
+		while(a[*last] < p)(*last)++;
+		if (*first < *last)
+		{
+			tmp = a[*first];
+			a[*first] = a[*last];
+			a[*last] = tmp;
+			t = b[*first];
+			b[*first] = b[*last];
+			b[*last] = t;
+		}
 	   } while(*first <= *last);
 }
 
 int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesize)
 { 
-	int q = 0;
+    int q = 0;
     WIN32_FIND_DATA fdFile; //структура описания файлов 
     HANDLE hFind = NULL; 
     wchar_t sPath[2048];
@@ -329,7 +329,7 @@ void main()
 			case 7: return;
 			}
 		for(i = 0; i < p; i++)
-        wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
+        	wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
 		printf("\n");
 		time = stop - start;
 		printf("Отсортировано за %.5f", ((float)time)/CLK_TCK);
