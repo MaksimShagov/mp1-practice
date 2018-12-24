@@ -17,8 +17,8 @@ void pick(ULONGLONG a[], int *b, int n)
 		{
 			if (a[j] < min)
 			{
-				min = a[j];
-				minind = j;
+			min = a[j];
+			minind = j;
 			}
 			t = a[i];
 			a[i] = a[minind];
@@ -121,10 +121,10 @@ void counting_sort(ULONGLONG a[], int n)
 void merge(ULONGLONG a[], int *b, int l, int m, int r)
 {
     int i, j, v = 0;
-	int *arr_ind;
+    int *arr_ind;	
     ULONGLONG *arr;
     arr = (ULONGLONG*)malloc((r - l + 1) * sizeof(ULONGLONG));
-	arr_ind = (int*)malloc((r - l + 1) * sizeof(int));
+    arr_ind = (int*)malloc((r - l + 1) * sizeof(int));
     i = l;
     j = m + 1;
     while ((i <= m) && (j <= r))
@@ -137,23 +137,23 @@ void merge(ULONGLONG a[], int *b, int l, int m, int r)
         }
         else
         {
-			arr_ind[v++] = b[j++];
+            arr_ind[v++] = b[j++];
             arr[v++] = a[j++];
         }
     }
     while (i <= m)
     {
-		arr_ind[v++] = b[i++];
+	arr_ind[v++] = b[i++];
         arr[v++] = a[i++];
     }
     while (j <= r)
     {
-		arr_ind[v++] = b[j++];
+	arr_ind[v++] = b[j++];
         arr[v++] = a[j++];
     }
     for (v = l; v <= r; v++)
 	{
-		arr_ind[v] = b[i - l];
+	arr_ind[v] = b[i - l];
         a[v] = arr[v - l];
     }
 	free(arr);
@@ -166,8 +166,8 @@ void merge_sort(ULONGLONG a[], int l, int r, int *b)
     if (l >= r) return;
     m = (l + r) / 2;
     merge_sort(a, l, r, b);
-	merge_sort(a, m + 1, r, b);
-	merge(a, b, l, m, r);
+    merge_sort(a, m + 1, r, b);
+    merge(a, b, l, m, r);
 }
 
 void hoarasort(ULONGLONG* a, int *b, int first, int last)
@@ -236,8 +236,8 @@ int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesi
             ULONGLONG fileSize = fdFile.nFileSizeHigh;
             fileSize <<= sizeof(fdFile.nFileSizeHigh) * 8; //Побитовый сдвиг влево, совмещённый с присваиванием
             fileSize |= fdFile.nFileSizeLow;
-			(*filename)[q] = (wchar_t*)malloc(2048 * sizeof(wchar_t));
-			(*filesize)[q] = fileSize;
+	    (*filename)[q] = (wchar_t*)malloc(2048 * sizeof(wchar_t));
+            (*filesize)[q] = fileSize;
             wsprintf(sPath, L"%s\\%s", sDir, fdFile.cFileName);
             wsprintf((*filename)[q], L"%s", sPath);
 			q++;
@@ -272,7 +272,7 @@ void main()
 	ULONGLONG* copy_filesize, *filesize;//массив размеров файлов
 	wchar_t **filename;//массив имен файлов
 	char* str = (char*)malloc(2048);
-    wchar_t* strclon = (wchar_t*)malloc(2048);
+        wchar_t* strclon = (wchar_t*)malloc(2048);
 	int* indfilename;//массив индексов для имен файлов
 	clock_t start, stop, time;
 	setlocale(LC_ALL, "Russian");
