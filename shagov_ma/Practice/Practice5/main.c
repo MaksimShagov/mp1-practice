@@ -67,7 +67,7 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
 			}
 }
 
-void counting_sort(ULONGLONG a[], int n)//недоработана
+/*void counting_sort(ULONGLONG a[], int n)//недоработана
 {
     int *count_ind;
     ULONGLONG *sizes, *arr, k, max = a[n - 1], min = a[0];
@@ -116,7 +116,7 @@ void counting_sort(ULONGLONG a[], int n)//недоработана
     free(arr);
     free(size);
     return;
-}
+}*/
 
 void merge(ULONGLONG a[], int *b, int l, int m, int r)
 {
