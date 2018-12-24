@@ -266,9 +266,6 @@ void call_menu()
 	printf("7 - выход из программы\n");
 }
 
-//C:\\Users\\user\\Desktop\\mp1-practice\\shagov_ma\\Practice\\Practice0
-//C:\\Users\\user\\Desktop\\files
-//C:\\Users\user\\Desktop\\filetest
 void main()
 {
 	int p, user_pick, i;
@@ -305,33 +302,32 @@ void main()
 			indfilename[i] = i;
 			copy_filesize[i] = filesize[i];
 		}
-		start = clock();
 		switch (user_pick)
 			{
-			case 1: 
-					bubble_sort(copy_filesize, indfilename, p); 
-					stop = clock();
-					break;
+			case 1: start = clock();
+				bubble_sort(copy_filesize, indfilename, p); 
+				stop = clock();
+				break;
 			case 2: start = clock(); 
-					pick(copy_filesize, indfilename, p); 
-					stop = clock();
-					break;
+				pick(copy_filesize, indfilename, p); 
+				stop = clock();
+				break;
 			case 3:	start = clock();	
-					paste(copy_filesize, p, indfilename);
-					stop = clock();
-					break;
+				paste(copy_filesize, p, indfilename);
+				stop = clock();
+				break;
 			case 4: start = clock();
-					counting_sort(copy_filesize, p);
-					stop = clock();
-					break;;
+				counting_sort(copy_filesize, p);
+				stop = clock();
+				break;;
 			case 5: start = clock();
-					merge_sort(copy_filesize, p, 0, indfilename);
-					stop = clock();
-					break;
+				merge_sort(copy_filesize, p, 0, indfilename);
+				stop = clock();
+				break;
 			case 6: start = clock();
-					hoarasort(copy_filesize, indfilename, 0, p-1); 
-					stop = clock();
-					break;
+				hoarasort(copy_filesize, indfilename, 0, p-1); 
+				stop = clock();
+				break;
 			case 7: return;
 			}
 		for(i = 0; i < p; i++)
