@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
@@ -67,11 +67,13 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
 			}
 }
 
-void counting_sort(ULONGLONG a[], int *b, int n)
+void counting_sort(ULONGLONG a[], int n)
 {
-	int* count_ind;
-    ULONGLONG k, max = a[0], min = a[0];
-    int i, q = 0, j;
+	int *count_ind;
+    ULONGLONG *size, *arr, k, max = a[n - 1], min = a[0];
+    int i, b = 0, j;
+    count_ind = (int*)malloc(n * sizeof(int));
+    size = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
     for (i = 0; i < n; i++)
     {
         if (a[i] < min)
@@ -84,27 +86,36 @@ void counting_sort(ULONGLONG a[], int *b, int n)
     }
     k = max - min + 1;
     if (k * (ULONGLONG)sizeof(int) > (ULONGLONG)UINT_MAX)
-	{
-		printf("\nСлишком большой диапозон значений для сортировки\n");
-		return;
-	}
-	count_ind = (int*)malloc(k * sizeof(int));
+        return;
+    arr = (ULONGLONG*)malloc(k * sizeof(ULONGLONG));
+    for (i = 0; i < k; i++) 
+        arr[i] = 0;
+    for (i = 0; i < n; i++)
+    {
+        arr[a[i] - min]++;
+    }
     for (i = 0; i < k; i++)
-	{
-		count_ind[i] = 0;
-	}
-	for (i = 0; i < n; i++)
-	{
-		count_ind[a[i] - min]++;
-	}
-	for (i = 0; i < n; i++)
-		for (j = 0; j < count_ind[i]; j++)
-		{
-			b[q] = i;
-			q++;
-		}
-
-	free(count_ind);
+    {
+        for (j = 0; j < arr[i]; j++)
+            size[b++] = i + min;
+    }
+    for (j = 0; j < n; j++)
+        arr[j] = a[j];
+    b = 0;
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+            if ((size[i] == arr[j]))
+            {
+                count_ind[b] = j;
+                arr[j] = -1;
+                b++;
+                break;
+            }
+    }
+    free(arr);
+    free(size);
+    return;
 }
 
 void merge(ULONGLONG a[], int *b, int l, int m, int r)
@@ -310,7 +321,7 @@ void main()
 					stop = clock();
 					break;
 			case 4: start = clock();
-					counting_sort(copy_filesize, indfilename, p);
+					counting_sort(copy_filesize, p);
 					stop = clock();
 					break;;
 			case 5: start = clock();
@@ -321,6 +332,7 @@ void main()
 					hoarasort(copy_filesize, indfilename, 0, p-1); 
 					stop = clock();
 					break;
+			case 7: return;
 			}
 		for(i = 0; i < p; i++)
         wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
