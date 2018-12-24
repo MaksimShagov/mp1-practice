@@ -17,8 +17,8 @@ void pick(ULONGLONG a[], int *b, int n)
 		{
 			if (a[j] < min)
 			{
-			min = a[j];
-			minind = j;
+				min = a[j];
+				minind = j;
 			}
 			t = a[i];
 			a[i] = a[minind];
@@ -67,13 +67,11 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
 			}
 }
 
-/*void counting_sort(ULONGLONG a[], int n)//недоработана
+void counting_sort(ULONGLONG a[], int *b, int n)
 {
-    int *count_ind;
-    ULONGLONG *sizes, *arr, k, max = a[n - 1], min = a[0];
-    int i, b = 0, j;
-    count_ind = (int*)malloc(n * sizeof(int));
-    size = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
+	int *counts;
+    ULONGLONG *copy_a, k, max = a[n - 1], min = a[0];
+    int i, q = 0, j, tmp;    
     for (i = 0; i < n; i++)
     {
         if (a[i] < min)
@@ -87,73 +85,64 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
     k = max - min + 1;
     if (k * (ULONGLONG)sizeof(int) > (ULONGLONG)UINT_MAX)
         return;
-    arr = (ULONGLONG*)malloc(k * sizeof(ULONGLONG));
+    counts = (int*)malloc(k * sizeof(int));
+	copy_a = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
     for (i = 0; i < k; i++) 
-        arr[i] = 0;
-    for (i = 0; i < n; i++)
-    {
-        arr[a[i] - min]++;
-    }
-    for (i = 0; i < k; i++)
-    {
-        for (j = 0; j < arr[i]; j++)
-            sizes[b++] = i + min;
-    }
-    for (j = 0; j < n; j++)
-        arr[j] = a[j];
-    b = 0;
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n; j++)
-            if ((size[i] == arr[j]))
-            {
-                count_ind[b] = j;
-                arr[j] = -1;
-                b++;
-                break;
-            }
-    }
-    free(arr);
-    free(size);
-    return;
-}*/
+        counts[i] = 0;
+	for (i = 0; i < k; i++)
+		counts[a[i] - min]++;
+	for (i = 0; i < k; i++)
+		for (j = 0; j < counts[a[i] - min]; j++)
+		{
+			copy_a[q] = i + min;
+			q++;
+		}
+	for (i = 0; i < n; i++)
+		for (j = i; j < n; j++)
+		if (a[i] = copy_a[j])
+		{
+			tmp = b[i];
+			b[i] = b[j];
+			b[j] = tmp;
+		}
+}
 
 void merge(ULONGLONG a[], int *b, int l, int m, int r)
 {
     int i, j, v = 0;
-    int *arr_ind;	
+	int *arr_ind;
     ULONGLONG *arr;
     arr = (ULONGLONG*)malloc((r - l + 1) * sizeof(ULONGLONG));
-    arr_ind = (int*)malloc((r - l + 1) * sizeof(int));
+	arr_ind = (int*)malloc((r - l + 1) * sizeof(int));
     i = l;
     j = m + 1;
     while ((i <= m) && (j <= r))
     {
         if (a[i] < a[j])
         {
-	    arr_ind[v++] = b[i++];
+			arr_ind[v++] = b[i++];
             arr[v++] = a[i++];
 
         }
         else
         {
-            arr_ind[v++] = b[j++];
+			arr_ind[v++] = b[j++];
             arr[v++] = a[j++];
         }
     }
     while (i <= m)
     {
-	arr_ind[v++] = b[i++];
+		arr_ind[v++] = b[i++];
         arr[v++] = a[i++];
     }
     while (j <= r)
     {
-	arr_ind[v++] = b[j++];
+		arr_ind[v++] = b[j++];
         arr[v++] = a[j++];
     }
     for (v = l; v <= r; v++)
 	{
-	arr_ind[v] = b[i - l];
+		arr_ind[v] = b[i - l];
         a[v] = arr[v - l];
     }
 	free(arr);
@@ -166,8 +155,8 @@ void merge_sort(ULONGLONG a[], int l, int r, int *b)
     if (l >= r) return;
     m = (l + r) / 2;
     merge_sort(a, l, r, b);
-    merge_sort(a, m + 1, r, b);
-    merge(a, b, l, m, r);
+	merge_sort(a, m + 1, r, b);
+	merge(a, b, l, m, r);
 }
 
 void hoarasort(ULONGLONG* a, int *b, int first, int last)
@@ -177,34 +166,34 @@ void hoarasort(ULONGLONG* a, int *b, int first, int last)
  i = first;
  j = last;
  hoarasplit(a, b, &i, &j, a[ind]);
- if (i < last)
+if (i < last)
    hoarasort(a, b, i, last);
- if (first < j)
+if (first < j)
    hoarasort(a, b, first, j);
 }
 
-void hoarasplit(ULONGLONG* a, int* b, int *first, int *last, int p)
+void hoarasplit(ULONGLONG a[], int* b, int *first, int *last, int p)
 {
 	int t;
 	ULONGLONG tmp;
 	do {
-		while(a[*first] < p)(*first)++;
-		while(a[*last] < p)(*last)++;
-		if (*first < *last)
-		{
-			tmp = a[*first];
-			a[*first] = a[*last];
-			a[*last] = tmp;
-			t = b[*first];
-			b[*first] = b[*last];
-			b[*last] = t;
-		}
+			while(a[*first] < p)(*first)++;
+			while(a[*last] < p)(*last)++;
+			if (*first < *last)
+			{
+				tmp = a[*first];
+				a[*first] = a[*last];
+				a[*last] = tmp;
+				t = b[*first];
+				b[*first] = b[*last];
+				b[*last] = t;
+			}
 	   } while(*first <= *last);
 }
 
 int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesize)
 { 
-    int q = 0;
+	int q = 0;
     WIN32_FIND_DATA fdFile; //структура описания файлов 
     HANDLE hFind = NULL; 
     wchar_t sPath[2048];
@@ -234,8 +223,8 @@ int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesi
             ULONGLONG fileSize = fdFile.nFileSizeHigh;
             fileSize <<= sizeof(fdFile.nFileSizeHigh) * 8; //Побитовый сдвиг влево, совмещённый с присваиванием
             fileSize |= fdFile.nFileSizeLow;
-	    (*filename)[q] = (wchar_t*)malloc(2048 * sizeof(wchar_t));
-            (*filesize)[q] = fileSize;
+			(*filename)[q] = (wchar_t*)malloc(2048 * sizeof(wchar_t));
+			(*filesize)[q] = fileSize;
             wsprintf(sPath, L"%s\\%s", sDir, fdFile.cFileName);
             wsprintf((*filename)[q], L"%s", sPath);
 			q++;
@@ -264,13 +253,16 @@ void call_menu()
 	printf("7 - выход из программы\n");
 }
 
+//C:\\Users\\user\\Desktop\\mp1-practice\\shagov_ma\\Practice\\Practice0
+//C:\\Users\\user\\Desktop\\files
+//C:\\Users\user\\Desktop\\filetest
 void main()
 {
 	int p, user_pick, i;
 	ULONGLONG* copy_filesize, *filesize;//массив размеров файлов
 	wchar_t **filename;//массив имен файлов
 	char* str = (char*)malloc(2048);
-        wchar_t* strclon = (wchar_t*)malloc(2048);
+    wchar_t* strclon = (wchar_t*)malloc(2048);
 	int* indfilename;//массив индексов для имен файлов
 	clock_t start, stop, time;
 	setlocale(LC_ALL, "Russian");
@@ -300,36 +292,37 @@ void main()
 			indfilename[i] = i;
 			copy_filesize[i] = filesize[i];
 		}
+		start = clock();
 		switch (user_pick)
 			{
-			case 1: start = clock();
-				bubble_sort(copy_filesize, indfilename, p); 
-				stop = clock();
-				break;
+			case 1: 
+					bubble_sort(copy_filesize, indfilename, p); 
+					stop = clock();
+					break;
 			case 2: start = clock(); 
-				pick(copy_filesize, indfilename, p); 
-				stop = clock();
-				break;
+					pick(copy_filesize, indfilename, p); 
+					stop = clock();
+					break;
 			case 3:	start = clock();	
-				paste(copy_filesize, p, indfilename);
-				stop = clock();
-				break;
+					paste(copy_filesize, p, indfilename);
+					stop = clock();
+					break;
 			case 4: start = clock();
-				counting_sort(copy_filesize, p);
-				stop = clock();
-				break;;
+					counting_sort(copy_filesize, indfilename, p);
+					stop = clock();
+					break;;
 			case 5: start = clock();
-				merge_sort(copy_filesize, p, 0, indfilename);
-				stop = clock();
-				break;
+					merge_sort(copy_filesize, p, 0, indfilename);
+					stop = clock();
+					break;
 			case 6: start = clock();
-				hoarasort(copy_filesize, indfilename, 0, p-1); 
-				stop = clock();
-				break;
+					hoarasort(copy_filesize, indfilename, 0, p-1); 
+					stop = clock();
+					break;
 			case 7: return;
 			}
 		for(i = 0; i < p; i++)
-        	wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
+        wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
 		printf("\n");
 		time = stop - start;
 		printf("Отсортировано за %.5f", ((float)time)/CLK_TCK);
