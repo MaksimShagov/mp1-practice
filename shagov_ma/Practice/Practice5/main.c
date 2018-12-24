@@ -189,7 +189,7 @@ do {
        tmp=a[i];
        a[i]=a[j];
        a[j]=tmp;
-	    t = b[i];
+       t = b[i];
        b[i]=b[j];
        b[j]=t;
      }
