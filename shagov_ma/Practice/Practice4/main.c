@@ -103,7 +103,7 @@ total_price()
 }
 void main()
 {
-	int i, pick, q;
+	int i, pick;
 	srand((unsigned int) time(0));
 	setlocale(LC_ALL, "Russian");
 	do {
