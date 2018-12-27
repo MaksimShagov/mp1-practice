@@ -88,7 +88,7 @@ void counting_sort(ULONGLONG a[], int n, int *b)
         if (a[i] > max)
             max = a[i];
     }
-    k = max + min + 1;
+    k = max + min - 1;
     count = (ULONGLONG*)malloc(k * sizeof(ULONGLONG));
     for (i = 0; i < k; i++)
         count[i] = 0;
@@ -99,10 +99,10 @@ void counting_sort(ULONGLONG a[], int n, int *b)
     for (i = 0; i < k; i++)
     {
         for (j = 0; j < count[i]; j++)
-            a[b++] = i + min;
+            a[q++] = i + min;
     }
     for (j = 0; j < n; j++)
-        b = 0;
+        q = 0;
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < n; j++)
@@ -110,7 +110,7 @@ void counting_sort(ULONGLONG a[], int n, int *b)
             {
                 b[q] = j;
                 arr[j] = -1;
-                b++;
+                q++;
                 break;
             }
     }
