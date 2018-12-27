@@ -172,34 +172,35 @@ void merge_sort(ULONGLONG a[], int l, int r, int *b)
 
 void hoarasort(ULONGLONG* a, int *b, int first, int last)
 {
- int ind = (first + last)/2;
- int i, j;
- i = first;
- j = last;
- hoarasplit(a, b, &i, &j, a[ind]);
- if (i < last)
+int i = first, j = last, t;
+ULONGLONG x = a[(first + last) / 2];
+ULONGLONG tmp;
+do {
+   while (a[i] < x)
+     i++;
+   while (a[j] > x)
+     j--;
+ 
+   if (i <= j) 
+   {
+     if (i < j)
+     {
+       tmp=a[i];
+       a[i]=a[j];
+       a[j]=tmp;
+	    t = b[i];
+       b[i]=b[j];
+       b[j]=t;
+     }
+     i++;
+     j--;
+   }
+} while (i <= j);
+ 
+if (i < last)
    hoarasort(a, b, i, last);
- if (first < j)
+if (first < j)
    hoarasort(a, b, first, j);
-}
-
-void hoarasplit(ULONGLONG* a, int* b, int *first, int *last, int p)
-{
-	int t;
-	ULONGLONG tmp;
-	do {
-		while(a[*first] < p)(*first)++;
-		while(a[*last] < p)(*last)++;
-		if (*first < *last)
-		{
-			tmp = a[*first];
-			a[*first] = a[*last];
-			a[*last] = tmp;
-			t = b[*first];
-			b[*first] = b[*last];
-			b[*last] = t;
-		}
-	   } while(*first <= *last);
 }
 
 int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesize)
@@ -284,11 +285,6 @@ void main()
 	}
 	indfilename = (int*)malloc(p * sizeof(int));
 	copy_filesize = (ULONGLONG*)malloc(p * sizeof(ULONGLONG));
-	for(i = 0; i < p; i++)
-	{
-		indfilename[i] = i;
-		copy_filesize[i] = filesize[i];
-	}
 	user_pick = 0;
 	while(user_pick != 7)
 	{
