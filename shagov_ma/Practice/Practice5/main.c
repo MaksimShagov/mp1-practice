@@ -316,7 +316,7 @@ void main()
 				stop = clock();
 				break;
 			case 4: start = clock();
-				counting_sort(copy_filesize, p);
+				counting_sort(copy_filesize, p, indfilename);
 				stop = clock();
 				break;;
 			case 5: start = clock();
