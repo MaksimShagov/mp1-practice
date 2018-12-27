@@ -4,7 +4,7 @@
 #define MAX 7
 #define MAX_LEN 17
 
-int codes[MAX] = { 1, 2, 3, 4, 5, 6, 7};
+int codes[MAX] = { 1231, 3132, 1233, 3224, 5313, 6422, 1317};
 char names[MAX][MAX_LEN] = { "Хлеб","Мясо","Вода","Сыр","Молоко","Картошка","Горох" };
 int prices[MAX] = { 10, 20, 30, 40, 50, 60, 70 };
 int discounts[MAX] = { 2, 3, 23, 11, 5, 9, 9 };
