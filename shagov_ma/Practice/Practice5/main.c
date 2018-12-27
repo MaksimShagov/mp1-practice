@@ -204,12 +204,12 @@ void hoarasort(ULONGLONG* a, int *b, int first, int last)
 int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesize)
 {
 	int q = 0;
-	WIN32_FIND_DATA fdFile; //структура описания файлов 
+	WIN32_FIND_DATA fdFile; //СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃР°РЅРёСЏ С„Р°Р№Р»РѕРІ 
 	HANDLE hFind = NULL;
 	wchar_t sPath[2048];
 
 	wsprintf(sPath, L"%s\\*.*", sDir);
-	if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE) //проверка введеного пути
+	if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE) //РїСЂРѕРІРµСЂРєР° РІРІРµРґРµРЅРѕРіРѕ РїСѓС‚Рё
 	{
 		return -1;
 	}
@@ -219,10 +219,10 @@ int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesi
 		{
 			q++;
 		}
-	} while (FindNextFile(hFind, &fdFile));// q - кол-во файлов в директории
+	} while (FindNextFile(hFind, &fdFile));// q - РєРѕР»-РІРѕ С„Р°Р№Р»РѕРІ РІ РґРёСЂРµРєС‚РѕСЂРёРё
 	hFind = FindFirstFile(sPath, &fdFile);
 	*filename = (wchar_t**)malloc(q * sizeof(wchar_t*));
-	*filesize = (ULONGLONG*)malloc(q * sizeof(ULONGLONG));// создаю массив размеров файлов
+	*filesize = (ULONGLONG*)malloc(q * sizeof(ULONGLONG));// СЃРѕР·РґР°СЋ РјР°СЃСЃРёРІ СЂР°Р·РјРµСЂРѕРІ С„Р°Р№Р»РѕРІ
 	q = 0;
 
 	do
@@ -231,7 +231,7 @@ int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesi
 		{
 
 			ULONGLONG fileSize = fdFile.nFileSizeHigh;
-			fileSize <<= sizeof(fdFile.nFileSizeHigh) * 8; //Побитовый сдвиг влево, совмещённый с присваиванием
+			fileSize <<= sizeof(fdFile.nFileSizeHigh) * 8; //РџРѕР±РёС‚РѕРІС‹Р№ СЃРґРІРёРі РІР»РµРІРѕ, СЃРѕРІРјРµС‰С‘РЅРЅС‹Р№ СЃ РїСЂРёСЃРІР°РёРІР°РЅРёРµРј
 			fileSize |= fdFile.nFileSizeLow;
 			(*filename)[q] = (wchar_t*)malloc(2048 * sizeof(wchar_t));
 			(*filesize)[q] = fileSize;
@@ -241,7 +241,7 @@ int ListDirectoryContents(wchar_t *sDir, wchar_t ***filename, ULONGLONG **filesi
 		}
 	} while (FindNextFile(hFind, &fdFile));
 	FindClose(hFind);
-	return q; //возвращаю кол файлов в директории 
+	return q; //РІРѕР·РІСЂР°С‰Р°СЋ РєРѕР» С„Р°Р№Р»РѕРІ РІ РґРёСЂРµРєС‚РѕСЂРёРё 
 }
 
 void Putpath(wchar_t* str, char* str1)
@@ -253,13 +253,13 @@ void Putpath(wchar_t* str, char* str1)
 
 void call_menu()
 {
-	printf("\n1 - сортировка пузырьком\n");
-	printf("2 - сортировка выбором\n");
-	printf("3 - сортировка вставками\n");
-	printf("4 - сортировка подсчетом\n");
-	printf("5 - сортировка слиянием\n");
-	printf("6 - быстрая сортировка\n");
-	printf("7 - выход из программы\n");
+	printf("\n1 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїСѓР·С‹СЂСЊРєРѕРј\n");
+	printf("2 - СЃРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРѕРј\n");
+	printf("3 - СЃРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё\n");
+	printf("4 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕРґСЃС‡РµС‚РѕРј\n");
+	printf("5 - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј\n");
+	printf("6 - Р±С‹СЃС‚СЂР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°\n");
+	printf("7 - РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹\n");
 }
 
 void copy_file(int *indfilename, ULONGLONG *copy_filesize, ULONGLONG *filesize, int p)
@@ -275,24 +275,24 @@ void copy_file(int *indfilename, ULONGLONG *copy_filesize, ULONGLONG *filesize, 
 void main()
 {
 	int p, user_pick, i;
-	ULONGLONG* copy_filesize, *filesize;//массив размеров файлов
-	wchar_t **filename;//массив имен файлов
+	ULONGLONG* copy_filesize, *filesize;//РјР°СЃСЃРёРІ СЂР°Р·РјРµСЂРѕРІ С„Р°Р№Р»РѕРІ
+	wchar_t **filename;//РјР°СЃСЃРёРІ РёРјРµРЅ С„Р°Р№Р»РѕРІ
 	char* str = (char*)malloc(2048);
 	wchar_t* strclon = (wchar_t*)malloc(2048);
-	int* indfilename;//массив индексов для имен файлов
+	int* indfilename;//РјР°СЃСЃРёРІ РёРЅРґРµРєСЃРѕРІ РґР»СЏ РёРјРµРЅ С„Р°Р№Р»РѕРІ
 	clock_t start, stop, time;
 	setlocale(LC_ALL, "Russian");
-	printf("Введите путь к файлам(вместо <\\> необходимо ставить <\\\\>\n");
+	printf("Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ Рє С„Р°Р№Р»Р°Рј(РІРјРµСЃС‚Рѕ <\\> РЅРµРѕР±С…РѕРґРёРјРѕ СЃС‚Р°РІРёС‚СЊ <\\\\>\n");
 	Putpath(strclon, str);
 	p = ListDirectoryContents(strclon, &filename, &filesize);
 	if (p == -1)
 	{
-		printf("Ошибка\n");
+		printf("РћС€РёР±РєР°\n");
 		return;
 	}
 	if (p == 0)
 	{
-		printf("В директории не обнаружено файлов\n");
+		printf("Р’ РґРёСЂРµРєС‚РѕСЂРёРё РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅРѕ С„Р°Р№Р»РѕРІ\n");
 		return;
 	}
 	indfilename = (int*)malloc(p * sizeof(int));
@@ -300,7 +300,7 @@ void main()
 	user_pick = 0;
 	while (user_pick != 7)
 	{
-		printf("\nВыбирете сортировку ");
+		printf("\nР’С‹Р±РёСЂРµС‚Рµ СЃРѕСЂС‚РёСЂРѕРІРєСѓ ");
 		call_menu();
 		scanf("%d", &user_pick);
 		copy_file(indfilename, copy_filesize, filesize, p);
@@ -333,10 +333,10 @@ void main()
 		case 7: return;
 		}
 		for (i = 0; i < p; i++)
-			wprintf(L"Файл: %s Размер: %lld байт\n", filename[indfilename[i]], filesize[indfilename[i]]);
+			wprintf(L"Р¤Р°Р№Р»: %s Р Р°Р·РјРµСЂ: %lld Р±Р°Р№С‚\n", filename[indfilename[i]], filesize[indfilename[i]]);
 		printf("\n");
 		time = stop - start;
-		printf("Отсортировано за %.5f", ((float)time) / CLK_TCK);
+		printf("РћС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРѕ Р·Р° %.5f", ((float)time) / CLK_TCK);
 	}
 	free(str);
 	free(strclon);
