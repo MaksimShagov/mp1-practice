@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
@@ -67,13 +67,17 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
 			}
 }
 
-/*void counting_sort(ULONGLONG a[], int n)//недоработана
+void counting_sort(ULONGLONG a[], int n, int *b)
 {
-    int *count_ind;
-    ULONGLONG *sizes, *arr, k, max = a[n - 1], min = a[0];
-    int i, b = 0, j;
-    count_ind = (int*)malloc(n * sizeof(int));
-    size = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
+    int i, j, q = 0;
+    ULONGLONG* count;
+    ULONGLONG* arr;
+    ULONGLONG min = a[0], max = a[n - 1], k;
+    arr = (ULONGLONG*)malloc(n * sizeof(ULONGLONG));
+    for (i = 0; i < n; i++)
+    {
+        arr[i] = a[i];
+    }
     for (i = 0; i < n; i++)
     {
         if (a[i] < min)
@@ -84,39 +88,34 @@ void bubble_sort(ULONGLONG a[],int *b,  int n)
         if (a[i] > max)
             max = a[i];
     }
-    k = max - min + 1;
-    if (k * (ULONGLONG)sizeof(int) > (ULONGLONG)UINT_MAX)
-        return;
-    arr = (ULONGLONG*)malloc(k * sizeof(ULONGLONG));
-    for (i = 0; i < k; i++) 
-        arr[i] = 0;
+    k = max + min + 1;
+    count = (ULONGLONG*)malloc(k * sizeof(ULONGLONG));
+    for (i = 0; i < k; i++)
+        count[i] = 0;
     for (i = 0; i < n; i++)
     {
-        arr[a[i] - min]++;
+        count[a[i] - min]++;
     }
     for (i = 0; i < k; i++)
     {
-        for (j = 0; j < arr[i]; j++)
-            sizes[b++] = i + min;
+        for (j = 0; j < count[i]; j++)
+            a[b++] = i + min;
     }
     for (j = 0; j < n; j++)
-        arr[j] = a[j];
-    b = 0;
+        b = 0;
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < n; j++)
-            if ((size[i] == arr[j]))
+            if ((a[i] == arr[j]))
             {
-                count_ind[b] = j;
+                b[q] = j;
                 arr[j] = -1;
                 b++;
                 break;
             }
     }
-    free(arr);
-    free(size);
-    return;
-}*/
+}
+
 
 void merge(ULONGLONG a[], int *b, int l, int m, int r)
 {
@@ -265,6 +264,16 @@ void call_menu()
 	printf("7 - выход из программы\n");
 }
 
+void copy_file(int *indfilename, ULONGLONG *copy_filesize, ULONGLONG *filesize, int p)
+{
+	int i;
+	for(i = 0; i < p; i++)
+	{
+		indfilename[i] = i;
+		copy_filesize[i] = filesize[i];
+	}
+}
+
 void main()
 {
 	int p, user_pick, i;
@@ -291,11 +300,7 @@ void main()
 		printf("\nВыбирете сортировку ");
 		call_menu();
 		scanf("%d", &user_pick);
-		for(i = 0; i < p; i++)
-		{
-			indfilename[i] = i;
-			copy_filesize[i] = filesize[i];
-		}
+		copy_file(indfilename, copy_filesize, filesize, p)
 		switch (user_pick)
 			{
 			case 1: start = clock();
