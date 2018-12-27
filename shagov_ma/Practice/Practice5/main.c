@@ -300,7 +300,7 @@ void main()
 		printf("\nВыбирете сортировку ");
 		call_menu();
 		scanf("%d", &user_pick);
-		copy_file(indfilename, copy_filesize, filesize, p)
+		copy_file(indfilename, copy_filesize, filesize, p);
 		switch (user_pick)
 			{
 			case 1: start = clock();
