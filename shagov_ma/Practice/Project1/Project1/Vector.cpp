@@ -25,10 +25,14 @@ Vector::Vector(int _size = 10)
 }
 
 
-Vector::Vector(int _size = 10, int* array = NULL)
+Vector::Vector(int _size, int* array)
 {
+	if (array == NULL)
+		return;
 	size = _size;
-	elements = array;
+	elements = new int[size];
+	for (int i = 0; i < size; i++)
+		elements[i] = array[i];
 }
 
 Vector::~Vector()
