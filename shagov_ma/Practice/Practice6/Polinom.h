@@ -12,8 +12,9 @@ public:
 	Monom(int, double);
 	Monom operator+(Monom&);
 	Monom operator*(Monom & x);
-	Monom operator=(Monom & x);
-	Monom operator/(Monom & x);
+	Monom& operator=(Monom & x);
+	//Monom operator=(Monom x);
+	Monom& operator/(Monom & x);
 	Monom operator-();
 	void output_monom();
 };
@@ -32,10 +33,12 @@ public:
 	void Output1();
 	void Input_Polinom();
 	Polinom& operator+(Polinom& b);
+	Polinom & operator/(Monom & b);
 	Polinom & operator-(Polinom & b);
 	Polinom & operator*(double b);
 	Polinom & operator*(Polinom & b);
 	Polinom & operator*(Monom & x);
+	Polinom & operator=(Polinom & x);
 	Monom * SearchDegr(int _degr, Monom * start);
 	Monom * SearchMaxDeg(Monom * start);
 	Monom * SearchMaxDeg();

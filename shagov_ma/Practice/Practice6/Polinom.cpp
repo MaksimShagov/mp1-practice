@@ -43,20 +43,19 @@ Monom Monom::operator*(Monom & x)
 	return tmp;
 }
 
-Monom Monom::operator=(Monom & x)
+Monom& Monom::operator=(Monom & x)
 {
-	next = x.next;
 	a = x.a;
 	degr = x.degr;
 	return *this;
 }
 
-Monom Monom::operator/(Monom & x)
+Monom& Monom::operator/(Monom & x)
 {
-	Monom tmp;
-	tmp.a = a / x.a;
-	tmp.degr = degr - x.degr;
-	return tmp;
+	Monom* tmp = new Monom(*this);
+	tmp->a = a / x.a;
+	tmp->degr = degr - x.degr;
+	return *tmp;
 }
 
 Monom Monom::operator-()
@@ -66,7 +65,7 @@ Monom Monom::operator-()
 }
 
 void Monom::output_monom()
-{ 
+{
 	if (degr == 0)
 	{
 		std::cout << "+" << a;
@@ -104,7 +103,7 @@ void Polinom::Add(int v, double q)
 	if (!head) head = new Monom(v, q);
 	else
 	{
-		for (i = head; i->next != 0; i = i->next){}
+		for (i = head; i->next != 0; i = i->next) {}
 		i->next = new Monom(v, q);
 	}
 }
@@ -143,8 +142,8 @@ void Polinom::Output()
 		i = Search(k);
 		if (i == nullptr) continue;
 		i->output_monom();
-		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
 
 void Polinom::Output1()
@@ -212,6 +211,7 @@ void Polinom::DeletedNulls()
 		if (i->a == 0)
 		{
 			DeletedMonom(i);
+			return;
 		}
 	}
 }
@@ -263,10 +263,26 @@ Polinom & Polinom::operator+(Polinom & b)
 				tmp->Add(*i);
 			}
 		}
+		DeletedNulls();
+		diminution();
 		return *tmp;
 	}
-	DeletedNulls();
-	diminution();
+
+}
+
+Polinom & Polinom::operator/(Monom& b)
+{
+	if (!head)
+		return *this;
+	else
+	{
+		Polinom* tmp = new Polinom(*this);
+		for (Monom* i = tmp->head; i; i = i->next)
+		{
+			*i = *i / b;
+		}
+		return *tmp;
+	} 
 }
 
 Polinom & Polinom::operator-(Polinom & b)
@@ -288,10 +304,10 @@ Polinom & Polinom::operator-(Polinom & b)
 				tmp->_Add(*i);
 			}
 		}
+		DeletedNulls();
+		//diminution();
 		return *tmp;
 	}
-	diminution();
-	DeletedNulls();
 }
 
 Polinom & Polinom::operator*(double b)
@@ -320,7 +336,7 @@ Polinom & Polinom::operator*(Polinom & b)
 			tmp->Add(*i * *k);
 		}
 	}
-	tmp->diminution();
+	//tmp->diminution();
 	tmp->DeletedNulls();
 	return *tmp;
 }
@@ -335,8 +351,18 @@ Polinom & Polinom::operator*(Monom & x)
 		i->a *= x.a;
 		i->degr += x.degr;
 	}
-	tmp->DeletedNulls();
+	//tmp->DeletedNulls();
 	return *tmp;
+}
+
+Polinom & Polinom::operator=(Polinom & x)
+{
+	DeleteAll();
+	for (Monom* i = x.head; i; i = i->next)
+	{
+		Add(*i);
+	}
+	return *this;
 }
 
 Monom* Polinom::SearchDegr(int _degr, Monom* start)
@@ -378,9 +404,13 @@ Monom* Polinom::SearchMaxDeg()
 	if (!head->next)
 		return head;
 	Monom* tmp = head;
+	int max_deg = head->degr;
 	for (Monom* i = head; i; i = i->next)
-		if (i->degr > tmp->degr)
+		if (i->degr > max_deg)
+		{
+			max_deg = i->degr;
 			tmp = i;
+		}
 	return tmp;
 }
 
@@ -449,17 +479,34 @@ void Polinom::Sort()
 	}
 }
 
-Polinom & Polinom::operator/(Polinom & b)
+Polinom& Polinom::operator/(Polinom& x)
 {
-	Monom* i, *k, *tmp = head;
-	Polinom* result = new Polinom(*this);
-	Polinom* del = new Polinom(b);
-	result->Sort();
-	del->Sort();
-	for (i = result->head, k = del->head; SearchMaxDeg()>= del->SearchMaxDeg(); k = k->next, i = i->next)
+	Polinom* rez = new Polinom();
+	if (!head)
+		return *this;
+	Monom* a = x.head;
+	if (a->next == nullptr)
 	{
-		*tmp = *i / *k;
-		*result = *result - b * *tmp;
+		*rez = *this / *a;
+		return *rez;
 	}
-	return *result;
+	Polinom* dividend = new Polinom(*this);
+	Monom* div = new Monom(*head);
+	Monom* max_deg_dividend = dividend->SearchMaxDeg();
+	Monom* max_deg_div = x.SearchMaxDeg();
+	if (max_deg_dividend->degr < max_deg_div->degr)
+	{
+		rez->Add(0, 0);
+		return *rez;
+	}
+	while (max_deg_dividend->degr >= max_deg_div->degr)
+	{
+		Monom tmp = *max_deg_dividend / *max_deg_div;
+		rez->Add(tmp);
+		*dividend = *dividend - (x * tmp);
+		max_deg_dividend = dividend->SearchMaxDeg();
+		if (max_deg_dividend == nullptr)
+			break;
+	}
+	return *rez;
 }
