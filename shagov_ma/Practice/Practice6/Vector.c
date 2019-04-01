@@ -10,6 +10,13 @@ Vector create(int dim)
 	int i;
 	Vector a;
 	a.dim = dim;
+	if (dim == 0)
+	{
+		printf("\nОшибка создания вектора - размер равен нулю");
+		a.comp = NULL;
+		return a;
+	}
+	a.dim = dim;
 	a.comp = (double*)malloc(dim * (sizeof(double)));
 	for (i = 0; i < dim; i++)
 	{
@@ -31,7 +38,8 @@ Vector sum(Vector a, Vector b)
 	if (!(a.dim == b.dim))
 	{
 		printf("\nОшибка сложения векторов - разная размерность");
-		return null();
+		tmp.comp = nullptr;
+		return tmp;
 	} 
 	for (i = 0; i < tmp.dim; i++)
 	{
@@ -46,8 +54,9 @@ Vector sub(Vector a, Vector b)
 	int i;
 	if (!(a.dim == b.dim))
 	{
-		printf("\nОшибка сложения векторов - разная размерность");
-		return null();
+		printf("\nОшибка при вычислении разности векторов - разная размерность");
+		tmp.comp = nullptr;
+		return tmp;
 	}
 	for (i = 0; i < tmp.dim; i++)
 	{
@@ -56,53 +65,63 @@ Vector sub(Vector a, Vector b)
 	return tmp;
 }
 
-double scalar(Vector a, Vector b)
+double scalar(Vector a, Vector b, int *flag)
 {
 	int i;
 	double scal = 0;
 	if (!(a.dim == b.dim))
 	{
-		printf("\nОшибка сложения векторов - разная размерность");
+		printf("\nОшибка при скалярном умножении векторов - разная размерность");
+		*flag = 0;
 		return 0;
 	}
 	for (i = 0; i < a.dim; i++)
 	{
 		scal += a.comp[i] * b.comp[i];
 	}
+	*flag = 1;
 	return scal;
 }
 
-double angle(Vector a, Vector b)
+double angle(Vector a, Vector b, int *flag)
 {
 	double angl;
 	double tmp;
-	if (length(a)*length(b) == 0)
+	if (length(a, flag)*length(b, flag) == 0)
 	{
 		printf("\nОшибка вычисления угла между векторами - нулевая длина вектора");
+		*flag = 0;
 		return 0;
 	}
-	tmp = scalar(a, b) / (length(a)*length(b));
+	tmp = scalar(a, b, flag) / (length(a)*length(b));
 	angl = acos(tmp * 180.0 / M_PI);
+	flag = 1;
 	return angl;
 }
 
-double length(Vector a)
+double length(Vector a, int *flag)
 {
 	double leng;
 	int i;
 	double tmp = 0;
-	for (i = 0; i < a.dim; i++)
+	if (a.dim != 0)
 	{
-		tmp += (a.comp[i])*(a.comp[i]);
+		for (i = 0; i < a.dim; i++)
+		{
+			tmp += (a.comp[i])*(a.comp[i]);
+		}
+		leng = sqrt(tmp);
+		*flag = 1;
+		return leng;
 	}
-	leng = sqrt(tmp);
-	return leng;
+	*flag = 0;
 }
 
-Vector null()
+void print_vector(Vector a)
 {
-	Vector Null;
-	Null.dim = 0;
-	Null.comp = NULL;
-	return Null;
+	int i = 0;
+	for (i = 0; i < a.dim; i++)
+	{
+		printf("%lf\n", &a.comp[i]);
+	};
 }

@@ -1,5 +1,4 @@
 #pragma once
-
 typedef struct 
 {
 	int dim;
@@ -13,4 +12,5 @@ Vector sub(Vector a, Vector b);
 double scalar(Vector a, Vector b);
 double angle(Vector a, Vector b);
 double length(Vector a);
+void print_vector(Vector a);
 Vector null();
