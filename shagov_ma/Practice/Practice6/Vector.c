@@ -18,10 +18,6 @@ Vector create(int dim)
 	}
 	a.dim = dim;
 	a.comp = (double*)malloc(dim * (sizeof(double)));
-	for (i = 0; i < dim; i++)
-	{
-		scanf("%lf", &a.comp[i]);
-	}
 	return a;
 }
 

@@ -10,7 +10,15 @@ void main()
 	{
 		scanf("%d %d", &q, &w);
 		a = create(q);
+		for (i = 0; i < a.dim; i++)
+		{
+			scanf("%lf", &a.comp[i]);
+		}
 		b = create(w);
+		for (i = 0; i < b.dim; i++)
+		{
+			scanf("%lf", &b.comp[i]);
+		}
 	} while ((q != 0) && (w != 0));
 	print_vector(a);
 	print_vector(b);
