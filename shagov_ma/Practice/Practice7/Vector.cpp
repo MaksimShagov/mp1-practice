@@ -33,11 +33,10 @@ Vector::~Vector()
 	dim = 0;
 }
 
-Vector & Vector::operator+(const Vector & a)
+Vector Vector::operator+(const Vector & a)
 {
-	Vector tmp;
-	tmp = Vector(dim);
-	if (!(a.dim == dim))
+	Vector tmp(dim);
+	if (a.dim != dim)
 	{
 		throw 1;
 	}
@@ -60,7 +59,7 @@ const Vector & Vector::operator=(const Vector & a)
 	return *this;
 }
 
-Vector & Vector::operator-(const Vector & a)
+Vector Vector::operator-(const Vector & a)
 {
 	Vector tmp;
 	tmp = Vector(dim);
@@ -70,19 +69,21 @@ Vector & Vector::operator-(const Vector & a)
 	}
 	for (int i = 0; i < tmp.dim; i++)
 	{
-		tmp.comp[i] = a.comp[i] - comp[i];
+		tmp.comp[i] = comp[i] - a.comp[i];
 	}
 	return tmp;
 }
 
-const Vector & Vector::operator+=(const Vector & a)
+Vector& Vector::operator+=(const Vector & a)
 {
-	return *this = *this + a;
+	*this = *this + a;
+	return *this;
 }
 
-const Vector & Vector::operator-=(const Vector & a)
+Vector& Vector::operator-=(const Vector & a)
 {
-	return *this = *this - a;
+	*this = *this - a;
+	return *this;
 }
 
 const double Vector::operator[](int index) const
@@ -97,48 +98,48 @@ double Vector::operator[](int index)
 	return comp[index];
 }
 
-Vector & Vector::operator*(double a)
+Vector Vector::operator*(double a)
 {
-	int i;
+	Vector tmp(dim);
 	if (dim == 0) throw 3;
-	for (i = 0; i < dim; i++)
+	for (int i = 0; i < dim; i++)
 	{
-		comp[i] = a * comp[i];
+		tmp.comp[i] = a * comp[i];
 	}
-	return *this;
+	return tmp;
 }
 
-Vector & Vector::operator/(double a)
+Vector Vector::operator/(double a)
 {
-	int i;
+	Vector tmp(dim);
 	if (dim == 0) throw 3;
-	for (i = 0; i < dim; i++)
+	for (int i = 0; i < dim; i++)
 	{
-		comp[i] = comp[i] / a;
+		tmp.comp[i] = comp[i] / a;
 	}
-	return *this;
+	return tmp;
 }
 
-Vector & Vector::operator-(double a)
+Vector Vector::operator-(double a)
 {
-	int i;
+	Vector tmp(dim);
 	if (dim == 0) throw 3;
-	for (i = 0; i < dim; i++)
+	for (int i = 0; i < dim; i++)
 	{
-		comp[i] = comp[i] - a;
+		tmp.comp[i] = comp[i] - a;
 	}
-	return *this;
+	return tmp;
 }
 
-Vector & Vector::operator+(double a)
+Vector Vector::operator+(double a)
 {
-	int i;
+	Vector tmp(dim);
 	if (dim == 0) throw 3;
-	for (i = 0; i < dim; i++)
+	for (int i = 0; i < dim; i++)
 	{
-		comp[i] = a + comp[i];
+		tmp.comp[i] = comp[i] + a;
 	}
-	return *this;
+	return tmp;
 }
 
 double Vector::operator*(const Vector & a)
@@ -165,7 +166,7 @@ double Vector::angle(Vector & a)
 		throw 4;
 	}
 	tmp =  *this*a / (a.lenght() * lenght());
-	angl = acos(tmp * 180.0 / M_PI);
+	angl = acos(tmp) * 180.0 / M_PI;
 	return angl;
 }
 
@@ -182,10 +183,12 @@ double Vector::lenght()
 	return leng;
 }
 
-void Vector::print_vector(void)
+void Vector::print_vector()
 {
-	for (int i = 0; i < dim; i++)
+	std::cout << "(" ;
+	for (int i = 0; i < dim - 1; i++)
 	{
-		std::cout << this->comp[i];
+		std::cout << comp[i] << ", ";
 	}
+	std::cout << comp[dim-1] << ")" << std::endl;
 }
