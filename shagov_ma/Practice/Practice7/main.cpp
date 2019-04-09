@@ -13,17 +13,17 @@ void main()
 		do
 		{
 			cin >> q >> w;
-			a.create(q);
+			a = Vector(q);
 			for (i = 0; i < a.dim; i++)
 			{
 				std::cin >> a.comp[i];
 			}
-			b.create(w);
+			b = Vector(w);
 			for (i = 0; i < b.dim; i++)
 			{
 				std::cin >> b.comp[i];
 			}
-			c.create(q);
+			c = Vector(q);
 		} while ((q != 0) && (w != 0));
 		a.print_vector();
 		a.print_vector();

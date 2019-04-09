@@ -3,27 +3,40 @@
 #include <math.h>
 #define M_PI  3.14159265358979323846
 
-void Vector::create(int user_dim)
-{
-	int i;
-	dim = user_dim;
-	if (user_dim == 0)
-	{
-		throw 3;
-	}
-	comp = new double[user_dim];
-}
-
-void Vector::destr()
+Vector::Vector()
 {
 	dim = 0;
-	delete [] comp;
+	comp = nullptr;
+}
+
+Vector::Vector(int _dim)
+{
+	dim = _dim;
+	comp = new double[dim];
+	for (int i = 0; i < dim; i++)
+	{
+		comp[i] = 0;
+	}
+}
+
+Vector::Vector(const Vector & a)
+{
+	dim = a.dim;
+	comp = new double[a.dim];
+	for (int i = 0; i < a.dim; i++)
+		comp[i] = a.comp[i];
+}
+
+Vector::~Vector()
+{
+	delete[] comp;
+	dim = 0;
 }
 
 Vector & Vector::operator+(const Vector & a)
 {
 	Vector tmp;
-	tmp.create(dim);
+	tmp = Vector(dim);
 	if (!(a.dim == dim))
 	{
 		throw 1;
@@ -50,7 +63,7 @@ const Vector & Vector::operator=(const Vector & a)
 Vector & Vector::operator-(const Vector & a)
 {
 	Vector tmp;
-	tmp.create(dim);
+	tmp = Vector(dim);
 	if (!(a.dim == dim))
 	{
 		throw 1;
@@ -72,21 +85,58 @@ const Vector & Vector::operator-=(const Vector & a)
 	return *this = *this - a;
 }
 
-const double Vector::operator[](int index)
+const double Vector::operator[](int index) const
 {
 	if (!comp[index]) throw 2;
 	return comp[index];
 }
 
+double Vector::operator[](int index)
+{
+	if (!comp[index]) throw 2;
+	return comp[index];
+}
 
 Vector & Vector::operator*(double a)
 {
 	int i;
-	double scal = 0;
 	if (dim == 0) throw 3;
 	for (i = 0; i < dim; i++)
 	{
 		comp[i] = a * comp[i];
+	}
+	return *this;
+}
+
+Vector & Vector::operator/(double a)
+{
+	int i;
+	if (dim == 0) throw 3;
+	for (i = 0; i < dim; i++)
+	{
+		comp[i] = comp[i] / a;
+	}
+	return *this;
+}
+
+Vector & Vector::operator-(double a)
+{
+	int i;
+	if (dim == 0) throw 3;
+	for (i = 0; i < dim; i++)
+	{
+		comp[i] = comp[i] - a;
+	}
+	return *this;
+}
+
+Vector & Vector::operator+(double a)
+{
+	int i;
+	if (dim == 0) throw 3;
+	for (i = 0; i < dim; i++)
+	{
+		comp[i] = a + comp[i];
 	}
 	return *this;
 }
