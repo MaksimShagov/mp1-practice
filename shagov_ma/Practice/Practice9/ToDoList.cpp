@@ -82,6 +82,7 @@ const Time & Time::operator=(const Time & _Time)
 {
 	hour = _Time.hour;
 	min = _Time.min;
+	return *this;
 }
 
 void Time::print_time()
@@ -212,4 +213,64 @@ const Date & Date::operator=(const Date & _Date)
 void Date::print_date()
 {
 	//
+}
+
+Task::Task()
+{
+	ToDo = nullptr;
+	designated_date.putDate_day(0);
+	designated_date.putDate_mon(0);
+	designated_date.putDate_year(0);
+}
+
+Task::~Task()
+{
+	ToDo = nullptr;
+	designated_date.putDate_day(0);
+	designated_date.putDate_mon(0);
+	designated_date.putDate_year(0);
+}
+
+void TypeNoAllDay::print_typeNDay()
+{
+	
+
+}
+
+void TypeNoAllDay::read_typeNDay()
+{
+	char buff[100];
+	std::ifstream istm;
+	istm.open("test.txt");
+	if (!istm.is_open())
+	{
+		throw "1";
+	}
+	istm.getline(buff, 100);
+	
+}
+
+void TypeDay::print_typeDay()
+{
+
+}
+
+void ToDoList::read_tasks()
+{
+	char way[50];
+	std::cin.getline(way, 50);
+	char buff[100];
+	int number_tasks;
+	std::ifstream istm;
+	istm.open(way);
+	if (!istm.is_open())
+	{
+		throw "1";
+	}
+	istm >> number_tasks;
+	tasks = new Task*[number_tasks];
+	for (int i = 0; i < number_tasks; i++)
+	{
+		istm.getline();
+	}
 }

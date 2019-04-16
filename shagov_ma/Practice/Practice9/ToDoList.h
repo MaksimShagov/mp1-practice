@@ -1,4 +1,6 @@
 #pragma once
+#include <fstream>
+#include <iostream>
 class Time
 {
 	unsigned int hour;
@@ -37,4 +39,43 @@ public:
 	Date putDate_year(unsigned int);
 	const Date& operator=(const Date&);
 	void print_date();
+};
+
+/**************************************/
+
+class Task
+{
+public:
+	Date designated_date;
+	char* ToDo;
+	Task();
+	~Task();
+};
+
+/**************************************/
+
+class TypeDay: public Task 
+{
+public:
+	void print_typeDay();
+};
+
+/**************************************/
+
+class TypeNoAllDay: public Task
+{
+private:
+	Time designated_time, duration;
+public:
+	void print_typeNDay();
+	void read_typeNDay();
+};
+
+/**************************************/
+
+class ToDoList
+{
+	Task** tasks;
+public:
+	void read_tasks();
 };
