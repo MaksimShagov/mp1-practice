@@ -1,6 +1,9 @@
 #pragma once
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <string.h>
+
 class Time
 {
 	unsigned int hour;
@@ -16,7 +19,8 @@ public:
 	Time putTime_min(unsigned int);
 	Time operator+(const Time&);
 	const Time& operator=(const Time&);
-	void print_time();
+
+	friend std::ostream& operator<<(std::ostream&, const Time&);
 };
 
 /**************************************/
@@ -38,7 +42,8 @@ public:
 	Date putDate_mon(unsigned int);
 	Date putDate_year(unsigned int);
 	const Date& operator=(const Date&);
-	void print_date();
+
+	friend std::ostream& operator<<(std::ostream&, const Date&);
 };
 
 /**************************************/
@@ -47,9 +52,16 @@ class Task
 {
 public:
 	Date designated_date;
-	char* ToDo;
+	std::string ToDo;
+	unsigned int id;
 	Task();
-	~Task();
+	virtual ~Task();
+	virtual Time get_start() = 0;
+	virtual Time get_end() = 0;
+	virtual Time set_start(Time);
+	virtual Time set_end(Time);
+
+	virtual void print() = 0;
 };
 
 /**************************************/
@@ -57,7 +69,12 @@ public:
 class TypeDay: public Task 
 {
 public:
-	void print_typeDay();
+	TypeDay();
+	~TypeDay();
+	Time get_start();
+	Time get_end();
+
+	virtual void print();
 };
 
 /**************************************/
@@ -65,17 +82,27 @@ public:
 class TypeNoAllDay: public Task
 {
 private:
-	Time designated_time, duration;
+	Time designated_time, time_2;
 public:
-	void print_typeNDay();
-	void read_typeNDay();
+	TypeNoAllDay();
+	~TypeNoAllDay();
+	Time get_start();
+	Time get_end();
+	Time set_start(Time);
+	Time set_end(Time);
+
+	virtual void print();
+	
 };
 
 /**************************************/
 
 class ToDoList
 {
-	Task** tasks;
 public:
+	Task** tasks;
+	int number;
+	int read_number();
 	void read_tasks();
+	void print_tasks();
 };

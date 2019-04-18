@@ -1,5 +1,7 @@
 #include "ToDoList.h"
 
+using namespace std;
+
 Time::Time()
 {
 	hour = 0;
@@ -83,11 +85,6 @@ const Time & Time::operator=(const Time & _Time)
 	hour = _Time.hour;
 	min = _Time.min;
 	return *this;
-}
-
-void Time::print_time()
-{
-
 }
 
 /****************************************************************/
@@ -210,67 +207,179 @@ const Date & Date::operator=(const Date & _Date)
 	return *this;
 }
 
-void Date::print_date()
-{
-	//
-}
-
 Task::Task()
 {
-	ToDo = nullptr;
-	designated_date.putDate_day(0);
-	designated_date.putDate_mon(0);
-	designated_date.putDate_year(0);
+	id = 0;
 }
 
 Task::~Task()
 {
+	id = 0;
 	ToDo = nullptr;
 	designated_date.putDate_day(0);
 	designated_date.putDate_mon(0);
 	designated_date.putDate_year(0);
 }
 
-void TypeNoAllDay::print_typeNDay()
+Time Task::set_start(Time x)
 {
-	
-
+	return Time();
 }
 
-void TypeNoAllDay::read_typeNDay()
+Time Task::set_end(Time x)
 {
-	char buff[100];
+	return Time();
+}
+
+TypeNoAllDay::TypeNoAllDay()
+{
+	id = 2;
+	ToDo = nullptr;
+}
+
+TypeNoAllDay::~TypeNoAllDay()
+{
+	id = 2;
+	ToDo = nullptr;
+}
+
+Time TypeNoAllDay::get_start()
+{
+	return designated_time;
+}
+
+Time TypeNoAllDay::set_start(Time x)
+{
+	designated_time = x;
+	return x;
+}
+
+Time TypeNoAllDay::get_end()
+{
+	return time_2;
+}
+
+Time TypeNoAllDay::set_end(Time x)
+{
+	time_2 = x;
+	return x;
+}
+
+void TypeNoAllDay::print()
+{
+	std::cout << " " << ToDo << " " << designated_date << " start:" << designated_time << " end:" << time_2 << std::endl;
+}
+
+TypeDay::TypeDay()
+{
+	id = 1;
+}
+
+TypeDay::~TypeDay()
+{
+	id = 1;
+	ToDo = nullptr;
+}
+
+Time TypeDay::get_start()
+{
+	return Time();
+}
+
+Time TypeDay::get_end()
+{
+	return Time();
+}
+
+void TypeDay::print()
+{
+	std::cout << ToDo << " " << designated_date << std::endl;
+}
+
+int ToDoList::read_number()
+{
+	char number_tasks[2];
 	std::ifstream istm;
 	istm.open("test.txt");
 	if (!istm.is_open())
 	{
 		throw "1";
 	}
-	istm.getline(buff, 100);
-	
-}
-
-void TypeDay::print_typeDay()
-{
-
+	istm >> number_tasks;
+	number = atoi(number_tasks);
 }
 
 void ToDoList::read_tasks()
 {
-	char way[50];
-	std::cin.getline(way, 50);
-	char buff[100];
-	int number_tasks;
+	read_number();
+	std::string buff;
 	std::ifstream istm;
-	istm.open(way);
-	if (!istm.is_open())
+	istm.open("test.txt");
+	this->tasks = new Task*[number];
+	getline(istm, buff);
+	for (int i = 0; i < number; i++)
 	{
-		throw "1";
+		getline(istm, buff);
+		char _type = (char)stoul(buff);
+		unsigned long _day = stoul(buff.substr(2, 2));
+		unsigned long _mon = stoul(buff.substr(5, 2));
+		unsigned long _year = stoul(buff.substr(8, 4));
+		Date tmp(_day, _mon, _year);
+		if (_type == 1)
+		{
+			Task* Type1 = new TypeDay;
+			Type1->designated_date = tmp;
+			Type1->ToDo = buff.substr(13);
+			tasks[i] = Type1;
+		}
+		if (_type == 0)
+		{
+			Task* Type2 = new TypeNoAllDay;
+			Type2->designated_date = tmp;
+			unsigned long _h_start = stoul(buff.substr(13, 2));
+			unsigned long _m_start = stoul(buff.substr(16, 2));
+			Time _start(_h_start, _m_start);
+			Type2->set_start(_start);
+			unsigned long _h_end = stoul(buff.substr(19, 2));
+			unsigned long _m_end = stoul(buff.substr(22, 2));
+			Type2->ToDo = buff.substr(25);
+			Time _end(_h_end, _m_end);
+			Type2->set_end(_end);
+			tasks[i] = Type2;
+		}
 	}
-	istm >> number_tasks;
-	tasks = new Task*[number_tasks];
-	for (int i = 0; i < number_tasks; i++)
-	{
-		istm.getline();
-	}
+	istm.close();
+}
+
+void ToDoList::print_tasks()
+{
+	for (int i = 0; i < number; i++)
+		tasks[i]->print();
+}
+
+std::ostream & operator<<(std::ostream & out, const Date & _Date)
+{
+	if (_Date.day < 10)
+		out << "0" << _Date.day << ".";
+	else
+		out << _Date.day << ".";
+	if (_Date.mon < 10)
+		out << "0" << _Date.mon << ".";
+	else
+		out << _Date.mon << ".";
+	out << _Date.year;
+	return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const Time & _Time)
+{
+	if (_Time.hour < 10)
+		out << "0" << _Time.hour << ":";
+	else
+		out << _Time.hour << ":";
+	if (_Time.min < 10)
+		out << "0" << _Time.min;
+	else
+		out << _Time.min;
+	return out;
 }
