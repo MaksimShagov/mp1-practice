@@ -207,6 +207,14 @@ const Date & Date::operator=(const Date & _Date)
 	return *this;
 }
 
+bool Date::operator==(const Date & x)
+{
+	if (day == x.day)
+		if (mon == x.mon)
+			if (year == x.year) return true;
+	return false;
+}
+
 Task::Task()
 {
 	id = 0;
@@ -355,6 +363,29 @@ void ToDoList::print_tasks()
 {
 	for (int i = 0; i < number; i++)
 		tasks[i]->print();
+}
+
+void ToDoList::print_task_date()
+{
+	Date tmp;
+	int _tmp;
+	cout << "Enter day: ";
+	cin >> _tmp;
+	cout << endl;
+	tmp.putDate_day(_tmp);
+	cout << "Enter month: ";
+	cin >> _tmp;
+	cout << endl;
+	tmp.putDate_mon(_tmp);
+	cout << "Enter year: ";
+	cin >> _tmp;
+	cout << endl;
+	tmp.putDate_year(_tmp);
+	for (int i = 0; i < number; i++)
+	{
+		if (tmp == tasks[i]->designated_date)
+			tasks[i]->print();
+	}
 }
 
 std::ostream & operator<<(std::ostream & out, const Date & _Date)

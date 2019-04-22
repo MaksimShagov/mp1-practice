@@ -3,15 +3,19 @@
 void main()
 {
 	ToDoList list;
-	int n;
-	try
-	{
-		list.read_tasks();
-		list.print_tasks();
-	}
-	catch (const char* k)
-	{
-		std::cout << k;
-	}
-	std::cin >> n;
+	int n = 0;
+	do {
+		try
+		{
+			list.read_tasks();
+			list.print_tasks();
+			list.print_task_date();
+			n = 1;
+		}
+		catch (const char* k)
+		{
+			n = 0;
+			std::cout << k;
+		}
+	} while (n != 1);
 }

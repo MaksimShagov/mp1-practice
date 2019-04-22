@@ -42,6 +42,7 @@ public:
 	Date putDate_mon(unsigned int);
 	Date putDate_year(unsigned int);
 	const Date& operator=(const Date&);
+	bool operator==(const Date&);
 
 	friend std::ostream& operator<<(std::ostream&, const Date&);
 };
@@ -105,4 +106,5 @@ public:
 	int read_number();
 	void read_tasks();
 	void print_tasks();
+	void print_task_date();
 };
