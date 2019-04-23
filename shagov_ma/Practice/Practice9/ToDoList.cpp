@@ -311,7 +311,7 @@ int ToDoList::read_number()
 	istm.open("test.txt");
 	if (!istm.is_open())
 	{
-		throw "1";
+		throw "Invalid file";
 	}
 	istm >> number_tasks;
 	number = atoi(number_tasks);
