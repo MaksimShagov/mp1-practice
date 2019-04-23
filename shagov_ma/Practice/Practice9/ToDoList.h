@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <string.h>
 
 class Time
 {
@@ -17,7 +16,6 @@ public:
 	unsigned int getTime_min();
 	Time putTime_hour(unsigned int);
 	Time putTime_min(unsigned int);
-	Time operator+(const Time&);
 	const Time& operator=(const Time&);
 
 	friend std::ostream& operator<<(std::ostream&, const Time&);

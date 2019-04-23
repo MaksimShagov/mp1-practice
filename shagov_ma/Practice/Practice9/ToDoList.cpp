@@ -64,22 +64,6 @@ Time Time::putTime_min(unsigned int _min)
 	return *this;
 }
 
-Time Time::operator+(const Time & _Time)
-{
-	Time tmp(hour, min);
-	if (min + _Time.min >= 60)
-	{
-		tmp.hour++;
-		tmp.min = (min + _Time.min) % 60;
-	}
-	if (tmp.hour + _Time.hour >= 24)
-	{
-		tmp.hour = (tmp.hour + _Time.hour) % 24;
-		//Date++;
-	}
-	return tmp;
-}
-
 const Time & Time::operator=(const Time & _Time)
 {
 	hour = _Time.hour;
@@ -215,6 +199,8 @@ bool Date::operator==(const Date & x)
 	return false;
 }
 
+/****************************************************************/
+
 Task::Task()
 {
 	id = 0;
@@ -239,10 +225,11 @@ Time Task::set_end(Time x)
 	return Time();
 }
 
+/****************************************************************/
+
 TypeNoAllDay::TypeNoAllDay()
 {
 	id = 2;
-	ToDo = nullptr;
 }
 
 TypeNoAllDay::~TypeNoAllDay()
@@ -250,6 +237,8 @@ TypeNoAllDay::~TypeNoAllDay()
 	id = 2;
 	ToDo = nullptr;
 }
+
+/****************************************************************/
 
 Time TypeNoAllDay::get_start()
 {
@@ -275,8 +264,11 @@ Time TypeNoAllDay::set_end(Time x)
 
 void TypeNoAllDay::print()
 {
-	std::cout << " " << ToDo << " " << designated_date << " start:" << designated_time << " end:" << time_2 << std::endl;
+	std::cout << ToDo << " " << designated_date;
+	std::cout << " start:" << designated_time << " end:" << time_2 << std::endl;
 }
+
+/****************************************************************/
 
 TypeDay::TypeDay()
 {
@@ -304,12 +296,14 @@ void TypeDay::print()
 	std::cout << ToDo << " " << designated_date << std::endl;
 }
 
+/****************************************************************/
+
 int ToDoList::read_number()
 {
 	char number_tasks[2];
 	std::ifstream istm;
 	istm.open("test.txt");
-	if (!istm.is_open())
+ 	if (!istm.is_open())
 	{
 		throw "Invalid file";
 	}
@@ -340,7 +334,7 @@ void ToDoList::read_tasks()
 			Type1->ToDo = buff.substr(13);
 			tasks[i] = Type1;
 		}
-		if (_type == 0)
+		if (_type == 2)
 		{
 			Task* Type2 = new TypeNoAllDay;
 			Type2->designated_date = tmp;
@@ -361,6 +355,7 @@ void ToDoList::read_tasks()
 
 void ToDoList::print_tasks()
 {
+	cout << "All tasks: " << endl;
 	for (int i = 0; i < number; i++)
 		tasks[i]->print();
 }
@@ -381,12 +376,22 @@ void ToDoList::print_task_date()
 	cin >> _tmp;
 	cout << endl;
 	tmp.putDate_year(_tmp);
+	int flag = 0;
 	for (int i = 0; i < number; i++)
 	{
 		if (tmp == tasks[i]->designated_date)
+		{
 			tasks[i]->print();
+			flag = 1;
+		}
+	}
+	if (flag == 0)
+	{
+		cout << "No tasks" << endl;
 	}
 }
+
+/****************************************************************/
 
 std::ostream & operator<<(std::ostream & out, const Date & _Date)
 {
