@@ -86,6 +86,8 @@ template<typename T, int maxsize>
 Container<T*, maxsize>::~Container()
 {
 	size = 0;
+	for (int i = 0; i < size; i++)
+		delete arr[i];
 	delete[] arr;
 }
 
@@ -164,8 +166,8 @@ void Container<T, maxsize>::Delete(T a)
 template<typename T, int maxsize>
 void Container<T*, maxsize>::Delete(T a)
 {
-	if (IsEmpty()) throw "No elements in container";
 	int tmp = find(a);
+	if (tmp == -1) throw "There is no such element";
 	delete arr[tmp];
 	arr[tmp] = arr[--size];
 }

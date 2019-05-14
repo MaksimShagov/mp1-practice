@@ -1,6 +1,6 @@
 #include "Container.h"
 
-int main() 
+int main()
 {
 	Container<int, 10> a1;
 	cout << "Check Add" << endl;
@@ -98,7 +98,7 @@ int main()
 		{
 			b1.Delete(i);
 		}
-		b1.Delete(0);
+		b1.Delete(20);
 	}
 	catch (const char *k)
 	{
