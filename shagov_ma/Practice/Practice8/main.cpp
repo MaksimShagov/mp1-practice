@@ -19,7 +19,7 @@ int main()
 	{
 		std::cout << B[2][2] << "\n";
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -29,7 +29,7 @@ int main()
 	{
 		std::cout << A[100][41] << "\n";
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -40,7 +40,7 @@ int main()
 		D = A + B;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -51,7 +51,7 @@ int main()
 		D = A + C;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -62,7 +62,7 @@ int main()
 		D = A + x;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -73,7 +73,7 @@ int main()
 		D = F + x;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -84,7 +84,7 @@ int main()
 		D = A * B;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -95,7 +95,7 @@ int main()
 		D = A * C;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -106,7 +106,7 @@ int main()
 		D = A * x;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -117,7 +117,7 @@ int main()
 		D = F * x;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -128,7 +128,7 @@ int main()
 		D = A - B;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -139,18 +139,18 @@ int main()
 		D = A - C;
 		D.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
 
-	std::cout << "Ğàçíîñòü ìàòğèöû è ÷èñëà (A - " << x << "): ";
+	std::cout << "ÃÃ Ã§Ã­Ã®Ã±Ã²Ã¼ Ã¬Ã Ã²Ã°Ã¨Ã¶Ã» Ã¨ Ã·Ã¨Ã±Ã«Ã  (A - " << x << "): ";
 	try
 	{
 		C = A - x;
 		C.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
@@ -161,7 +161,7 @@ int main()
 		C = F - x;
 		C.Output();
 	}
-	catch (char* k)
+	catch (const char* k)
 	{
 		std::cout << k;
 	}
