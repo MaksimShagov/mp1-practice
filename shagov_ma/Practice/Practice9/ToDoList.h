@@ -55,10 +55,6 @@ public:
 	unsigned int id;
 	Task();
 	virtual ~Task();
-	virtual Time get_start() = 0;
-	virtual Time get_end() = 0;
-	virtual Time set_start(Time);
-	virtual Time set_end(Time);
 
 	virtual void print() = 0;
 };
