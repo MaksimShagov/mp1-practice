@@ -4,11 +4,11 @@
 #define MAX 7
 #define MAX_LEN 17
 
-char codes[MAX][2] = { "1", "2", "3", "4", "5", "6", "7" };
+char codes[MAX][5] = { "1234", "2231", "3131", "4323", "5123", "6434", "7333" };
 char names[MAX][MAX_LEN] = { "Хлеб","Мясо","Вода","Сыр","Молоко","Картошка","Горох" };
 int prices[MAX] = { 10, 20, 30, 40, 50, 60, 70 };
 int discounts[MAX] = { 2, 3, 23, 11, 5, 9, 9 };
-int user_choose1;
+char user_choose1[4];
 int check[100] = { 0 };
 
 void call_menu()
@@ -24,18 +24,18 @@ void scan()
 	int q;
 	do {
 		printf("Введите штрих-код\n");
-		scanf("%d", &user_choose1);
+		scanf("%s", user_choose1);
 		q = scan_error(user_choose1);
 	} while (q == 0);
 }
 
-int scan_error(int user_choose1)
+int scan_error(char* user_choose1)
 {
 	int i, q;
 	for (i = 0; i < MAX; i++)
 	{
 		q = 0;
-		if ((user_choose1 < 10000) && (user_choose1 >= 1) && (user_choose1 == atoi(codes[i])))
+		if ((atoi(user_choose1) < 10000) && (atoi(user_choose1) >= 1) && (atoi(user_choose1) == atoi(codes[i])))
 		{
 			q++;
 			break;
@@ -49,12 +49,12 @@ int scan_error(int user_choose1)
 	return q;
 }
 
-int search(int user_choose1)
+int search(char* user_choose1)
 {
 	int i;
 	for (i = 0; i < MAX; i++)
 	{
-		if (user_choose1 == atoi(codes[i]))
+		if (strcmp(user_choose1, codes[i]) == 0)
 			return i;
 	}
 }
@@ -62,7 +62,7 @@ int search(int user_choose1)
 void info_items()
 {
 	int q;
-	if (user_choose1 == -1)
+	if (atoi(user_choose1) == -1)
 	{
 		printf("\nВы не отсканировали товар\n");
 		return;
@@ -80,7 +80,8 @@ void print_items()
 		if (check[i] != 0)
 		{
 			q++;
-			printf("%d. %s -- %s -- %d -- %.0f\n", q, names[i], codes[i], check[i], prices[i] * (1 - discounts[q] * 0.01f));
+			printf("%d. %s -- %s -- ", q, names[i], codes[i]);
+			printf("%d -- %.0f\n", check[i], prices[i] * (1 - discounts[q] * 0.01f));
 		}
 	}
 }
