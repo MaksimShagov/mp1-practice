@@ -3,8 +3,8 @@
 void main()
 {
 	Vector a, b;
-	int s, q, w, i, *flag;
-	double tmp;
+	int s, q, w, i;
+	double tmp, *flag;
 	printf("Введите размерность векторов\n");
 	do
 	{
@@ -44,45 +44,41 @@ void main()
 		}
 		break;
 	case 3:
-		tmp = scalar(a, b, flag);
-		if (*flag == 0)
+		if (scalar(a, b, flag) == -1)
 		{
 			printf("Ошибка - разная размерномть векторов\n");
 			return;
 		}
-		printf("Скалярное произведение = %lf", tmp);
+		printf("Скалярное произведение = %lf", *flag);
 		break;
 	case 4:
-		tmp = angle(a, b, flag);
-		if (*flag == 0)
+		if (angle(a, b, flag) == -1)
 		{
 			printf("Ошибка - разная размерномть векторов\n");
 			return;
 		}
-		printf("Угол между векторами = %lf", tmp);
+		printf("Угол между векторами = %lf", *flag);
 		break;
 	case 5:
 		printf("\nДлину вектора 1 - а, 2 - b");
 		scanf("%d", &s);
 		if (s == 1)
 		{
-			tmp = length(a, flag);
-			if (*flag == 0)
+			if (length(a, flag) == -1)
 			{
 				printf("Ошибка - разная размерномть векторов\n");
 				return;
 			}
-			printf("Длина вектора а = %lf", tmp);
+			printf("Длина вектора а = %lf", *flag);
 		}
 		else 
 		{
-			tmp = length(b, flag);
-			if (*flag == 0)
+			if (length(b, flag) == -1)
 			{
 				printf("Ошибка - разная размерномть векторов\n");
 				return;
 			}
-			printf("Длина вектора b = %lf", tmp);
+			printf("Длина вектора b = %lf", *flag);
 		}
 		break;
 	}

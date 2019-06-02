@@ -34,7 +34,6 @@ Vector sum(Vector a, Vector b)
 	if (!(a.dim == b.dim))
 	{
 		printf("\nОшибка сложения векторов - разная размерность");
-		tmp.comp = nullptr;
 		return tmp;
 	} 
 	for (i = 0; i < tmp.dim; i++)
@@ -51,7 +50,6 @@ Vector sub(Vector a, Vector b)
 	if (!(a.dim == b.dim))
 	{
 		printf("\nОшибка при вычислении разности векторов - разная размерность");
-		tmp.comp = nullptr;
 		return tmp;
 	}
 	for (i = 0; i < tmp.dim; i++)
@@ -61,43 +59,38 @@ Vector sub(Vector a, Vector b)
 	return tmp;
 }
 
-double scalar(Vector a, Vector b, int *flag)
+double scalar(Vector a, Vector b, double *scal)
 {
 	int i;
-	double scal = 0;
 	if (!(a.dim == b.dim))
 	{
 		printf("\nОшибка при скалярном умножении векторов - разная размерность");
-		*flag = 0;
-		return 0;
+		return -1;
 	}
 	for (i = 0; i < a.dim; i++)
 	{
-		scal += a.comp[i] * b.comp[i];
+		*scal += a.comp[i] * b.comp[i];
 	}
-	*flag = 1;
-	return scal;
+	return 1;
 }
 
-double angle(Vector a, Vector b, int *flag)
+double angle(Vector a, Vector b, double *angl)
 {
-	double angl;
+	double t1, t2, t3;
 	double tmp;
-	if (length(a, flag)*length(b, flag) == 0)
+	if ((length(a, &t1) == -1 )||( length(b, &t2) == -1))
 	{
 		printf("\nОшибка вычисления угла между векторами - нулевая длина вектора");
-		*flag = 0;
-		return 0;
+		return -1;
 	}
-	tmp = scalar(a, b, flag) / (length(a)*length(b));
-	angl = acos(tmp * 180.0 / M_PI);
-	flag = 1;
-	return angl;
+	scalar(a, b, &t3);
+	tmp = t3 / (t1*t2);
+	*angl = acos(tmp * 180.0 / M_PI);
+	return 1;
 }
 
-double length(Vector a, int *flag)
+double length(Vector a, double *leng)
 {
-	double leng;
 	int i;
 	double tmp = 0;
 	if (a.dim != 0)
@@ -106,11 +99,10 @@ double length(Vector a, int *flag)
 		{
 			tmp += (a.comp[i])*(a.comp[i]);
 		}
-		leng = sqrt(tmp);
-		*flag = 1;
-		return leng;
+		*leng = sqrt(tmp);
+		return 1;
 	}
-	*flag = 0;
+	return -1;
 }
 
 void print_vector(Vector a)
