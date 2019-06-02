@@ -18,7 +18,8 @@ public:
 	void Add(T);
 	void Delete(T);
 	T& operator[](int);
-	void print_all();
+	T& operator[](int) const;
+	void print_all() const;
 };
 
 template <typename T, int maxsize>
@@ -32,11 +33,12 @@ public:
 	~Container();
 	bool IsFull() const;
 	bool IsEmpty() const;
-	int find(T) const;
-	void Add(T);
-	void Delete(T);
+	int find(T*) const;
+	void Add(T*);
+	void Delete(T*);
 	T& operator[](int);
-	void print_all();
+	T& operator[](int) const;
+	void print_all() const;
 };
 
 template<typename T, int maxsize>
@@ -128,12 +130,12 @@ int Container<T, maxsize>::find(T a) const
 }
 
 template<typename T, int maxsize>
-int Container<T*, maxsize>::find(T a) const
+int Container<T*, maxsize>::find(T* a) const
 {
 	if (IsEmpty()) throw "No elements in container";
 	for (int i = 0; i < size; i++)
 	{
-		if (**(arr + i) == a)
+		if (**(arr + i) == *a)
 			return i;
 	}
 	return -1;
@@ -148,10 +150,10 @@ void Container<T, maxsize>::Add(T a)
 }
 
 template<typename T, int maxsize>
-void Container<T*, maxsize>::Add(T a)
+void Container<T*, maxsize>::Add(T* a)
 {
 	if (IsFull()) throw "Container is full";
-	arr[size] = new T(a);
+	arr[size] = new T(*a);
 	size++;
 }
 
@@ -164,7 +166,7 @@ void Container<T, maxsize>::Delete(T a)
 }
 
 template<typename T, int maxsize>
-void Container<T*, maxsize>::Delete(T a)
+void Container<T*, maxsize>::Delete(T* a)
 {
 	int tmp = find(a);
 	if (tmp == -1) throw "There is no such element";
@@ -180,6 +182,13 @@ T& Container<T, maxsize>::operator[](int i)
 }
 
 template<typename T, int maxsize>
+T& Container<T, maxsize>::operator[](int i) const
+{
+	if (i > maxsize) throw "Out of range";
+	return arr[i];
+}
+
+template<typename T, int maxsize>
 T& Container<T*, maxsize>::operator[](int i)
 {
 	if (i > maxsize) throw "Out of range";
@@ -187,7 +196,14 @@ T& Container<T*, maxsize>::operator[](int i)
 }
 
 template<typename T, int maxsize>
-void Container<T, maxsize>::print_all()
+T& Container<T*, maxsize>::operator[](int i) const
+{
+	if (i > maxsize) throw "Out of range";
+	return *arr[i];
+}
+
+template<typename T, int maxsize>
+void Container<T, maxsize>::print_all() const
 {
 	if (IsEmpty()) throw "No elements in container";
 	for (int i = 0; i < size; i++)
@@ -197,7 +213,7 @@ void Container<T, maxsize>::print_all()
 }
 
 template<typename T, int maxsize>
-void Container<T*, maxsize>::print_all()
+void Container<T*, maxsize>::print_all() const
 {
 	if (IsEmpty()) throw "No elements in container";
 	for (int i = 0; i < size; i++)
