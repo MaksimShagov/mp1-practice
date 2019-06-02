@@ -3,10 +3,12 @@
 
 int main()
 {
-	Matrix A(3, 3), B(3, 3), C(2, 2), D(0, 0), F(0, 0);
+	Matrix A(3, 3), B(3, 3), V(3, 5), E(5, 6), N(3, 6), C(2, 2), D(0, 0), F(0, 0);
 	A.Rand_elements();
 	B.Rand_elements();
 	C.Rand_elements();
+	V.Rand_elements();
+	E.Rand_elements();
 	std::cout << "Matrix A: ";
 	A.Output();
 	std::cout << "Matrix B: ";
@@ -100,6 +102,17 @@ int main()
 		std::cout << k;
 	}
 
+	std::cout << "Matrix multiplication (V * E): ";
+	try
+	{
+		N = V * E;
+		D.Output();
+	}
+	catch (const char* k)
+	{
+		std::cout << k;
+	}
+
 	std::cout << "Matrix multiplication by number (A * " << x << "): ";
 	try
 	{
@@ -144,7 +157,7 @@ int main()
 		std::cout << k;
 	}
 
-	std::cout << "Ðàçíîñòü ìàòðèöû è ÷èñëà (A - " << x << "): ";
+	std::cout << "Matrix and number difference (A - " << x << "): ";
 	try
 	{
 		C = A - x;

@@ -19,10 +19,7 @@ Matrix::Matrix(const Matrix &x)
 	cols = x.cols;
 	rows = x.rows;
 	elements = new double[rows * cols];
-	for (int i = 0; i < rows * cols; i++)
-	{
-		elements[i] = x.elements[i];
-	}
+	memcpy(elements, x.elements, rows*cols);
 }
 
 Matrix::~Matrix()
@@ -104,10 +101,7 @@ const Matrix & Matrix::operator=(const Matrix & x)
 	rows = x.rows;
 	delete[] elements;
 	elements = new double[rows * cols];
-	for (int i = 0; i < rows * cols; i++)
-	{
-		elements[i] = x.elements[i];
-	}
+	memcpy(elements, x.elements, rows*cols);
 }
 
 const double * Matrix::operator[](int x) const
@@ -122,17 +116,16 @@ double * Matrix::operator[](int x)
 	return elements + x * cols;
 }
 
-void Matrix::Output()
+void Matrix::Output() const
 {
-	std::cout << "\n";
+	std::cout << std::endl;
 	for (int i = 0; i < rows; i++)
 	{
-		std::cout << "| ";
 		for (int j = 0; j < cols; j++)
 			std::cout << elements[i * cols + j] << " ";
-		std::cout << "| \n";
+		std::cout << std::endl;
 	}
-	std::cout << "\n";
+	std::cout << std::endl;
 }
 
 void Matrix::Input()
