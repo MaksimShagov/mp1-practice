@@ -19,7 +19,7 @@ public:
 	const Matrix& operator=(const Matrix&);
 	const double* operator[](int) const;
 	double* operator[](int);
-	void Output();
+	void Output() const;
 	void Input();
 	void Rand_elements();
 };
