@@ -34,36 +34,6 @@ Time::~Time()
 	min = 0;
 }
 
-unsigned int Time::getTime_hour()
-{
-	return hour;
-}
-
-unsigned int Time::getTime_min()
-{
-	return min;
-}
-
-Time Time::putTime_hour(unsigned int _hour)
-{
-	if ((_hour >= 24) || (_hour < 0))
-	{
-		throw "Invalid time - hour";
-	}
-	hour = _hour;
-	return *this;
-}
-
-Time Time::putTime_min(unsigned int _min)
-{
-	if ((_min > 59) || (_min < 0))
-	{
-		throw "Invalid time - min";
-	}
-	min = _min;
-	return *this;
-}
-
 const Time & Time::operator=(const Time & _Time)
 {
 	hour = _Time.hour;
@@ -128,61 +98,6 @@ Date::~Date()
 	year = 0;
 }
 
-unsigned int Date::getDate_day()
-{
-	return day;
-}
-
-unsigned int Date::getDate_mon()
-{
-	return mon;
-}
-
-unsigned int Date::getDate_year()
-{
-	return year;
-}
-
-Date Date::putDate_day(unsigned int _day)
-{
-	if ((_day < 0) || (_day > 31))
-	{
-		throw "Invalid date - day";
-	}
-	if (((year % 400) == 0) || ((year % 100 != 0) && (year % 4 == 0)))
-	{
-		if ((mon == 2) && (_day > 29))
-			throw "Invalid date - month #2";
-	}
-	if ((mon == 4) || (mon == 6) || (mon == 9) || (mon == 11))
-	{
-		if (_day >= 31)
-			throw "Invalid date - month";
-	}
-	day = _day;
-	return *this;
-}
-
-Date Date::putDate_mon(unsigned int _mon)
-{
-	if ((_mon < 0) || (_mon > 12))
-	{
-		throw "Invalid date - month";
-	}
-	mon = _mon;
-	return *this;
-}
-
-Date Date::putDate_year(unsigned int _year)
-{
-	if (_year < 0)
-	{
-		throw "Invalid date - year";
-	}
-	year = _year;
-	return *this;
-}
-
 const Date & Date::operator=(const Date & _Date)
 {
 	day = _Date.day;
@@ -191,7 +106,7 @@ const Date & Date::operator=(const Date & _Date)
 	return *this;
 }
 
-bool Date::operator==(const Date & x)
+bool Date::operator==(const Date & x) const
 {
 	if (day == x.day)
 		if (mon == x.mon)
@@ -203,39 +118,24 @@ bool Date::operator==(const Date & x)
 
 Task::Task()
 {
-	id = 0;
+
 }
 
 Task::~Task()
 {
-	id = 0;
-	ToDo = nullptr;
-	designated_date.putDate_day(0);
-	designated_date.putDate_mon(0);
-	designated_date.putDate_year(0);
-}
 
-Time Task::set_start(Time x)
-{
-	return Time();
-}
-
-Time Task::set_end(Time x)
-{
-	return Time();
 }
 
 /****************************************************************/
 
 TypeNoAllDay::TypeNoAllDay()
 {
-	id = 2;
+
 }
 
 TypeNoAllDay::~TypeNoAllDay()
 {
-	id = 2;
-	ToDo = nullptr;
+
 }
 
 /****************************************************************/
@@ -245,10 +145,9 @@ Time TypeNoAllDay::get_start()
 	return designated_time;
 }
 
-Time TypeNoAllDay::set_start(Time x)
+void TypeNoAllDay::set_start(Time x)
 {
 	designated_time = x;
-	return x;
 }
 
 Time TypeNoAllDay::get_end()
@@ -256,10 +155,9 @@ Time TypeNoAllDay::get_end()
 	return time_2;
 }
 
-Time TypeNoAllDay::set_end(Time x)
+void TypeNoAllDay::set_end(Time x)
 {
 	time_2 = x;
-	return x;
 }
 
 void TypeNoAllDay::print()
@@ -272,23 +170,12 @@ void TypeNoAllDay::print()
 
 TypeDay::TypeDay()
 {
-	id = 1;
+	
 }
 
 TypeDay::~TypeDay()
 {
-	id = 1;
-	ToDo = nullptr;
-}
-
-Time TypeDay::get_start()
-{
-	return Time();
-}
-
-Time TypeDay::get_end()
-{
-	return Time();
+	
 }
 
 void TypeDay::print()
@@ -298,43 +185,35 @@ void TypeDay::print()
 
 /****************************************************************/
 
-int ToDoList::read_number()
+void ToDoList::read_tasks(std::string in_string)
 {
-	char number_tasks[2];
-	std::ifstream istm;
-	istm.open("test.txt");
- 	if (!istm.is_open())
-	{
-		throw "Invalid file";
-	}
-	istm >> number_tasks;
-	number = atoi(number_tasks);
-}
-
-void ToDoList::read_tasks()
-{
-	read_number();
 	std::string buff;
 	std::ifstream istm;
-	istm.open("test.txt");
+	istm.open(in_string);
+	if (!istm.is_open())
+	{
+		throw "No such path";
+	}
+	char number_tasks[2];
+	istm >> number_tasks;
+	number = atoi(number_tasks);
 	this->tasks = new Task*[number];
 	getline(istm, buff);
 	for (int i = 0; i < number; i++)
 	{
 		getline(istm, buff);
-		char _type = (char)stoul(buff);
 		unsigned long _day = stoul(buff.substr(2, 2));
 		unsigned long _mon = stoul(buff.substr(5, 2));
 		unsigned long _year = stoul(buff.substr(8, 4));
 		Date tmp(_day, _mon, _year);
-		if (_type == 1)
+		if (buff.find(':') == std::string::npos)
 		{
 			Task* Type1 = new TypeDay;
 			Type1->designated_date = tmp;
 			Type1->ToDo = buff.substr(13);
 			tasks[i] = Type1;
 		}
-		if (_type == 2)
+		if (buff.find(':') == ':')
 		{
 			Task* Type2 = new TypeNoAllDay;
 			Type2->designated_date = tmp;
@@ -360,22 +239,8 @@ void ToDoList::print_tasks()
 		tasks[i]->print();
 }
 
-void ToDoList::print_task_date()
+void ToDoList::print_task_date(const Date& tmp) const
 {
-	Date tmp;
-	int _tmp;
-	cout << "Enter day: ";
-	cin >> _tmp;
-	cout << endl;
-	tmp.putDate_day(_tmp);
-	cout << "Enter month: ";
-	cin >> _tmp;
-	cout << endl;
-	tmp.putDate_mon(_tmp);
-	cout << "Enter year: ";
-	cin >> _tmp;
-	cout << endl;
-	tmp.putDate_year(_tmp);
 	int flag = 0;
 	for (int i = 0; i < number; i++)
 	{
