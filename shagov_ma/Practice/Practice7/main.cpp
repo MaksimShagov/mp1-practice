@@ -6,8 +6,9 @@ void main()
 {
 	Vector a, b, c;
 	setlocale(LC_ALL, "Rus");
-	int s, q = 1, w = 1, i;
+	int s, q = 1, w = 1;
 	double tmp;
+	int i;
 	try
 	{
 		cout << "Введите размерность векторов:: " << endl;
@@ -18,13 +19,13 @@ void main()
 			cout << "Второго(b): ";
 			cin >> w;
 			a = Vector(q);
-			for (i = 0; i < a.dim; i++)
+			for (int i = 0; i < a.dim; i++)
 			{
 				cout << i << "  координата вектора a: ";
 				cin >> a.comp[i];
 			}
 			b = Vector(w);
-			for (i = 0; i < b.dim; i++)
+			for (int i = 0; i < b.dim; i++)
 			{
 				cout << i << " координата вектора b: ";
 				cin >> b.comp[i];
@@ -41,7 +42,6 @@ void main()
 		cout << "Введите 4 для получения угла между векторами a и b. " << endl;
 		cout << "Введите 5 для получения длины вектора a или вектора b. " << endl;
 		cout << "Введите 0 для отмены выбора режима." << endl;
-
 
 		do
 		{
@@ -94,6 +94,4 @@ void main()
 	{
 		cout << "Вызвано исключение#: " << k << '\n';
 	}
-	int t;
-	cin >> t;
 }
