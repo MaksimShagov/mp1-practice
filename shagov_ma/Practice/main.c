@@ -36,7 +36,7 @@ int scan_error(char* user_choose1)
 	for (i = 0; i < MAX; i++)
 	{
 		q = 0;
-		if ((atoi(user_choose1) < 10000) && (atoi(user_choose1) >= 1) && (strcmp(user_choose1, atoi(codes[i]) == 0)
+		if ((atoi(user_choose1) < 10000) && (atoi(user_choose1) >= 1) && (strcmp(user_choose1, codes[i]) == 0))
 		{
 			q++;
 			break;
