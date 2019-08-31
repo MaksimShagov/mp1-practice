@@ -18,7 +18,7 @@ public:
 	void Add(T);
 	void Delete(T);
 	T& operator[](int);
-	T& operator[](int) const;
+	const T& operator[](int) const;
 	void print_all() const;
 };
 
@@ -36,8 +36,8 @@ public:
 	int find(T*) const;
 	void Add(T*);
 	void Delete(T*);
-	T& operator[](int);
-	T& operator[](int) const;
+	T*& operator[](int);
+        const T*& operator[](int) const;
 	void print_all() const;
 };
 
