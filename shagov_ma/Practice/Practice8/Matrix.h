@@ -18,8 +18,7 @@ public:
 	Matrix operator*(double);
 	const Matrix& operator=(const Matrix&);
 	const double* operator[](int) const;
-	double* operator[](int);
+	friend std::ostream& operator << (std::ostream&, const Matrix&);
 	void Output() const;
-	void Input();
 	void Rand_elements();
 };
