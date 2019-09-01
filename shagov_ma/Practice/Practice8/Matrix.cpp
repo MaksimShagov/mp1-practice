@@ -116,25 +116,18 @@ double * Matrix::operator[](int x)
 	return elements + x * cols;
 }
 
-void Matrix::Output() const
+std::ostream& operator << (std::ostream& s, const Matrix& x)
 {
-	std::cout << std::endl;
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < cols; j++)
-			std::cout << elements[i * cols + j] << " ";
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-}
-
-void Matrix::Input()
-{
-	std::cout << "Enter the matrix elements (space separated):";
-	for (int i = 0; i < (rows * cols); i++)
-	{
-		std::cin >> elements[i];
-	}
+    s << "\n";
+	for (int i = 0; i < x.rows; i++)
+    {
+        s << "| ";
+        for (int j = 0; j < x.cols; j++)
+            s << x.arr[i * x.cols + j] << " ";
+        s << "| \n";
+    }
+    s << "\n";
+    return s;
 }
 
 void Matrix::Rand_elements()
