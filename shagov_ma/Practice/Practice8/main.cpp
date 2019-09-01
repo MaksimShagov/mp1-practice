@@ -10,11 +10,11 @@ int main()
 	V.Rand_elements();
 	E.Rand_elements();
 	std::cout << "Matrix A: ";
-	A.Output();
+	std::cout << A;
 	std::cout << "Matrix B: ";
-	B.Output();
+	std::cout << B;
 	std::cout << "Matrix C: ";
-	C.Output();
+	std::cout << C;
 
 	std::cout << "\nMatrix element B[2][2]: ";
 	try
@@ -40,7 +40,7 @@ int main()
 	try
 	{
 		D = A + B;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -51,7 +51,7 @@ int main()
 	try
 	{
 		D = A + C;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -62,7 +62,7 @@ int main()
 	try
 	{
 		D = A + x;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -73,7 +73,7 @@ int main()
 	try
 	{
 		D = F + x;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -84,7 +84,7 @@ int main()
 	try
 	{
 		D = A * B;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -95,7 +95,7 @@ int main()
 	try
 	{
 		D = A * C;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -106,7 +106,7 @@ int main()
 	try
 	{
 		N = V * E;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -117,7 +117,7 @@ int main()
 	try
 	{
 		D = A * x;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -128,7 +128,7 @@ int main()
 	try
 	{
 		D = F * x;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -139,7 +139,7 @@ int main()
 	try
 	{
 		D = A - B;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -150,7 +150,7 @@ int main()
 	try
 	{
 		D = A - C;
-		D.Output();
+		std::cout << D;
 	}
 	catch (const char* k)
 	{
@@ -161,7 +161,7 @@ int main()
 	try
 	{
 		C = A - x;
-		C.Output();
+		std::cout << C;
 	}
 	catch (const char* k)
 	{
@@ -172,7 +172,7 @@ int main()
 	try
 	{
 		C = F - x;
-		C.Output();
+		std::cout << C;
 	}
 	catch (const char* k)
 	{
